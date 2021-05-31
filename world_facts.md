@@ -1,36 +1,38 @@
 ---
-jupyter:
-  jupytext:
-    formats: ipynb,md
-    text_representation:
-      extension: .md
-      format_name: markdown
-      format_version: '1.1'
-      jupytext_version: 1.2.3
-  kernelspec:
-    display_name: Python 3
-    language: python
-    name: python3
+jupytext:
+  formats: ipynb,md:myst
+  notebook_metadata_filter: all,-language_info,-toc,-latex_envs
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.10.3
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
 ---
 
 In this notebook we plot the world population and the gross domestic product per country
 
-```python tags=["parameters"]
+```{code-cell} ipython3
+:tags: [parameters]
+
 year = 2000
 ```
 
-```python
+```{code-cell} ipython3
 from plots import sundial_plot
 ```
 
 ## World Population
 
-```python
+```{code-cell} ipython3
 sundial_plot('SP.POP.TOTL', 'World Population', year)
 ```
 
 ## Gross Domestic Product (current USD)
 
-```python
+```{code-cell} ipython3
 sundial_plot('NY.GDP.MKTP.CD', 'Gross Domestic Product', year)
 ```

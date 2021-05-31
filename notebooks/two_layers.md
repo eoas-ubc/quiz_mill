@@ -1,21 +1,20 @@
-# ---
-# jupyter:
-#   jupytext:
-#     cell_metadata_filter: -all
-#     formats: md:myst,ipynb,py:percent
-#     notebook_metadata_filter: all,-language_info,-toc,-latex_envs
-#     text_representation:
-#       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
-#       jupytext_version: 1.10.3
-#   kernelspec:
-#     display_name: Python 3
-#     language: python
-#     name: python3
-# ---
+---
+jupytext:
+  cell_metadata_filter: -all
+  formats: md:myst,ipynb,py:percent
+  notebook_metadata_filter: all,-language_info,-toc,-latex_envs
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.10.3
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
 
-# %%
+```{code-cell} ipython3
 """
    This notebook solves two equations in two unknowns to find the equilibrium
    radiative balance in a two layer atmosphere over a black ground surface
@@ -36,11 +35,13 @@
 """
 import numpy as np
 from scipy import linalg
+```
 
+```{code-cell} ipython3
 
-# %%
+```
 
-# %%
+```{code-cell} ipython3
 def do_two(Sol=341.0, epsilon=0.55, albedo=0.3):
     """
 
@@ -94,8 +95,9 @@ def do_two(Sol=341.0, epsilon=0.55, albedo=0.3):
     Ground = Sol * (1 - albedo) + F1 + (1 - epsilon) * F2 - Fg
     fluxes = (Fg, F1, F2)
     return fluxes
+```
 
-# %%
+```{code-cell} ipython3
 def do_two_matrix(Sol=341.0, albedo=0.3, epsilon1=0.55, epsilon2=0.55):
     """
      do_two_matrix(Sol=341.,albedo=0.3,epsilon1=0.55,epsilon2=0.55)
@@ -140,8 +142,9 @@ def do_two_matrix(Sol=341.0, albedo=0.3, epsilon1=0.55, epsilon2=0.55):
     the_inv = linalg.inv(the_array)
     fluxes = the_inv @ rhs
     return fluxes
+```
 
-# %%
+```{code-cell} ipython3
 def find_temps(fluxes, epsilon1=0.55, epsilon2=0.55):
 
     """
@@ -157,12 +160,13 @@ def find_temps(fluxes, epsilon1=0.55, epsilon2=0.55):
     T1 = (fluxes[1] / (sigma * epsilon1)) ** 0.25
     T2 = (fluxes[2] / (sigma * epsilon2)) ** 0.25
     return (Tg, T1, T2)
+```
 
-# %% [markdown]
-# ## compare the two functions
+## compare the two functions
 
-# %%
+```{code-cell} ipython3
 analytic_fluxes = do_two()
 numeric_fluxes = do_two_matrix()
 print(f"analytic temperatures: {find_temps(analytic_fluxes)}")
 print(f"numeric temperatues: {find_temps(numeric_fluxes)}")
+```
