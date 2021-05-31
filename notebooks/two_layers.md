@@ -20,9 +20,9 @@ kernelspec:
    radiative balance in a two layer atmosphere over a black ground surface
    
    ---------------
-   abs2
+   epsilon2
    ---------------
-   abs1
+   epsilon1
    ---------------
    _______________________  Fg
    
