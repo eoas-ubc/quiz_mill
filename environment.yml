@@ -1,0 +1,21 @@
+name: notebook
+channels:
+  - eoas_ubc
+  - conda-forge
+dependencies:
+  # NOTE: pip required for running tests in this repo
+  - python=3.8
+  - pip=20
+  - numpy
+  - scipy
+  - pandas
+  - plotly
+  - matplotlib
+  - jupytext
+  - jupyterlab
+  - papermill
+  - jupyter-book
+  - black
+  - flake8
+  - conda-lock
+# conda-lock -f environment.yml -p linux-64
