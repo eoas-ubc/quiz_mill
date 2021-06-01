@@ -1,4 +1,5 @@
 ---
+celltoolbar: Tags
 jupytext:
   cell_metadata_filter: -all
   formats: md:myst,ipynb,py:percent
@@ -20,9 +21,9 @@ kernelspec:
    radiative balance in a two layer atmosphere over a black ground surface
    
    ---------------
-   epsilon2
+   abs2
    ---------------
-   epsilon1
+   abs1
    ---------------
    _______________________  Fg
    
@@ -38,7 +39,13 @@ from scipy import linalg
 ```
 
 ```{code-cell} ipython3
+:tags: [parameters]
 
+# Default parameters
+sol = 341.0
+epsilon1 = 0.55
+epsilon2 = 0.55
+albedo = 0.3
 ```
 
 ```{code-cell} ipython3
@@ -165,8 +172,12 @@ def find_temps(fluxes, epsilon1=0.55, epsilon2=0.55):
 ## compare the two functions
 
 ```{code-cell} ipython3
-analytic_fluxes = do_two()
-numeric_fluxes = do_two_matrix()
+analytic_fluxes = do_two(sol, epsilon1, albedo)
+numeric_fluxes = do_two_matrix(sol, albedo, epsilon1, epsilon2)
 print(f"analytic temperatures: {find_temps(analytic_fluxes)}")
 print(f"numeric temperatues: {find_temps(numeric_fluxes)}")
+```
+
+```{code-cell} ipython3
+
 ```
