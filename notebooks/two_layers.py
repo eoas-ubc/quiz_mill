@@ -1,5 +1,6 @@
 # ---
 # jupyter:
+#   celltoolbar: Tags
 #   jupytext:
 #     cell_metadata_filter: -all
 #     formats: md:myst,ipynb,py:percent
@@ -37,8 +38,13 @@
 import numpy as np
 from scipy import linalg
 
-
 # %%
+# Default parameters
+sol = 341.0
+epsilon1 = 0.55
+epsilon2 = 0.55
+albedo = 0.3
+
 
 # %%
 def do_two(Sol=341.0, epsilon=0.55, albedo=0.3):
@@ -162,7 +168,9 @@ def find_temps(fluxes, epsilon1=0.55, epsilon2=0.55):
 # ## compare the two functions
 
 # %%
-analytic_fluxes = do_two()
-numeric_fluxes = do_two_matrix()
+analytic_fluxes = do_two(sol, epsilon1, albedo)
+numeric_fluxes = do_two_matrix(sol, albedo, epsilon1, epsilon2)
 print(f"analytic temperatures: {find_temps(analytic_fluxes)}")
 print(f"numeric temperatues: {find_temps(numeric_fluxes)}")
+
+# %%
