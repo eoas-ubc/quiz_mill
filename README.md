@@ -18,19 +18,24 @@ kernelspec:
 
 * First install mamba and conda-lock into your base environment
 
-    conda activate base
-    conda install mamba conda-lock
+      conda activate base
+      conda install mamba conda-lock
    
 * Then create a lock file for your platform and use it to make
   a new environment
 
-    conda-lock -f environment.yml -p osx-64   (or linux-64 or win-64)
-    mamba create --name test --file conda*lock*
-    conda activate test
+      conda-lock -f environment.yml -p osx-64   (or linux-64 or win-64)
+      mamba create --name test --file conda*lock*
+      conda activate test
 
 * Finally, install the command line utilities using an editable install:
 
-    pip install -e .
+      pip install -e .
+      
+ # Running filter_notebook
+ 
+      cd notebooks
+      filter_notebook two_layers.md new_layers.md
 
 
   
