@@ -24,7 +24,7 @@ import click
 @click.command()
 @click.argument("jupyin", type=str, nargs=1)
 @click.argument("jupyout", type=str, nargs=1)
-@click.option("-r", "--remove", is_flag=True, help="Remove answer cells") # remove currently doesn't do anything
+@click.option("-r", "--remove", is_flag=True, help="Remove answer cells")
 @click.option("-a", "--add", is_flag=True, help="Add answer cells with answers")
 def main(jupyin,jupyout, remove, add):
     in_file = Path(jupyin).resolve()
