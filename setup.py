@@ -12,8 +12,8 @@ setup(
     ],
     entry_points={
           'console_scripts': [
--              'run-papermill = quiz_mill.run_papermill:main',
--              'filter-notebook = quiz_mill.filter_notebook:main'
+              'run-papermill = quiz_mill.run_papermill:main',
+              'filter-notebook = quiz_mill.filter_notebook:main'
           ]
     },
     keywords='eoas ubc ocese',
