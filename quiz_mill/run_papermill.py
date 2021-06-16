@@ -12,7 +12,13 @@ def main():
 @main.command()
 @click.argument("parameter_file")
 def doit(parameter_file):
-    test
+    arglist=['papermill','--help']
+    result = subprocess.run(arglist, capture_output=True)
+    if result.stdout:
+        print(f"stdout message: {result.stdout.decode('utf-8')}")
+    if result.stderr:
+        print(f"stderror message: {result.stderr.decode('utf-8')}")
+
 
 if __name__ == "__main__":
     main()
