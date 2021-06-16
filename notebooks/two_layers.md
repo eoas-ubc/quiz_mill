@@ -25,6 +25,7 @@ to install the quiz_mill package
 
 Then at the command line, create a new notebook with:
 
+`papermill -p sol 330 -p epsilon1 0.4 -p epsilon2 0.6 notebooks/two_layers.ipynb trial1.ipynb`
 
 ```{code-cell} ipython3
 from quiz_mill.solve_layers import do_two, do_two_matrix, find_temps

@@ -27,6 +27,7 @@
 #
 # Then at the command line, create a new notebook with:
 #
+# `papermill -p sol 330 -p epsilon1 0.4 -p epsilon2 0.6 notebooks/two_layers.ipynb trial1.ipynb`
 #
 
 # %%
