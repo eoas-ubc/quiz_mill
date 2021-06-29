@@ -47,6 +47,7 @@ def main(jupyin,jupyout, remove, add):
             nb = jp.read(in_folder / in_file)
 
             # Parameters
+            parameter_cell = ""
             sol = 0.0
             epsilon1 = 0.0
             epsilon2 = 0.0
@@ -71,7 +72,8 @@ def main(jupyin,jupyout, remove, add):
                     len(the_cell["metadata"]["tags"]) > 0 and 
                     the_cell["metadata"]["tags"][0] == "injected-parameters"
                     ):
-                    parameters = list(the_cell["source"].split('\n')[1:-1])
+                    parameter_cell = the_cell["source"]
+                    parameters = list(parameter_cell.split('\n')[1:-1])
                     sol = float(re.sub("^sol = ", "", parameters[0]))
                     epsilon1 = float(re.sub("^epsilon1 = ", "", parameters[1]))
                     epsilon2 = float(re.sub("^epsilon2 = ", "", parameters[2]))
@@ -81,10 +83,17 @@ def main(jupyin,jupyout, remove, add):
             new_cells = []
 
             # Add question cells for student book
-            source = f"q1: Given the above parameters, find the temperature of layer 1."
+            source = """\
+{}
+
+Given the above parameters, find the temperature of layer 1.
+
+Give your answer to three decimal places.\
+""".format(parameter_cell)
             question = new_markdown_cell(source=source)
-            question['metadata']['quesnum']='1'
-            question['metadata']['ctype']='question'
+            question["metadata"]["quesnum"]='1'
+            question["metadata"]["ctype"]='question'
+            question["metadata"]["question_type"] = "numerical_question"
             new_cells.append(question)
 
             # Save student notebook
@@ -96,12 +105,24 @@ def main(jupyin,jupyout, remove, add):
             jp.write(nb,out_file)
 
             # Add solutions
-            T1 = str(do_two_matrix(sol, albedo, epsilon1, epsilon2)[1])
-            source = f"answer: {T1}"
-            answer = new_markdown_cell(source=source)
-            answer['metadata']['quesnum'] = '1'
-            answer['metadata']['ctype']='answer'
-            new_cells.append(answer)
+            T1 = do_two_matrix(sol, albedo, epsilon1, epsilon2)[1]
+            source = "* {:0.2f}, 3: precision_answer".format(T1)
+            answer0 = new_markdown_cell(source=source)
+            answer0['metadata']['quesnum'] = '1'
+            answer0['metadata']['ctype']='answer'
+            new_cells.append(answer0)
+            source = """Check this with Python:
+
+```{code-cell} ipython3
+:ctype: answer
+:quesnum: 1
+
+np.testing.assert_almost_equal(ans,6.383,decimals=3)
+```"""
+            answer1 = new_markdown_cell(source=source)
+            answer1['metadata']['quesnum'] = '1'
+            answer1['metadata']['ctype']='answer'
+            new_cells.append(answer1)
             
             # Save solution notebook
             nb['cells'] = original_cells + new_cells
