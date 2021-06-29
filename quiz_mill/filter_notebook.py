@@ -1,24 +1,24 @@
-from notebooks.two_layers import find_temps
-import sys
-sys.path.insert(1, '../notebooks')
-import two_layers
 """
-This script goes through all the cells in a notebook
-and sets the ctype metadata to 'question' and adds
-a question number.  Then it makes a second pass through 
-each cell and adds a new cell with the same question number
-and the metadata answer, with the text 'qxx answer here'
+This script generates student and solution notebook quizzes. It
+takes as input a directory path containing the "unfiltered" notebooks
+(no questions or answers) and a directory path to output student and
+solution versions of each "filtered" notebook. Student notebooks only
+contain the questions and the solution notebooks contain the 
+questions and answers.
 
 To run:
 
-python write_meta.py in_notebook.md out_notebook.md
+filter-notebook notebooks/output/unfiltered/ notebooks/output/filtered/ 
 
 """
+import os
 import jupytext as jp
 from jupytext.cli import jupytext
 from pathlib import Path
 from nbformat.v4.nbbase import new_code_cell, new_markdown_cell
 import click
+import re
+from .solve_layers import do_two_matrix
 
 
 @click.command()
@@ -27,71 +27,91 @@ import click
 @click.option("-r", "--remove", is_flag=True, help="Remove answer cells")
 @click.option("-a", "--add", is_flag=True, help="Add answer cells with answers")
 def main(jupyin,jupyout, remove, add):
-    in_file = Path(jupyin).resolve()
-    out_file = Path(jupyout).resolve()
-    print(in_file,out_file)
-    nb = jp.read(in_file)
-    print(f"{(len(nb),type(nb))=}")
-    print(f"keys {list(nb.keys())}")
-    for item in ['nbformat', 'nbformat_minor', 'metadata']:
-        print(f"{item}:{nb[item]=}")
-    for count,the_cell in enumerate(nb['cells']):
-        the_cell['metadata']['ctype']='question'
-        the_cell['metadata']['quesnum']=count
+    in_folder = Path(jupyin).resolve()
+    out_folder = Path(jupyout).resolve()
 
-    # add an answer cell after each question cell
-    # currently only adds answers for q2 and q3
-    if add:
-        answers = get_answers()
-        i = 0
-        new_cells = []
-        for a_cell in nb['cells']:
-            new_cells.append(a_cell)
-            num = a_cell['metadata']['quesnum']
+    # Immediately return if directory does not exists
+    if not in_folder.is_dir():
+        print("Directory containing unfiltered notebooks does not exist.")
+        print(f"Resolved directory path: {in_folder}")
+        return
+    elif not out_folder.is_dir():
+        print("Directory to place filtered notebooks does not exist.")
+        print(f"Resolved directory path: {out_folder}")
+        return
+
+    # Iterate through each unfiltered notebook and filter it
+    for _, _, files in os.walk(in_folder, topdown=False):
+        
+        for in_file in files:
+            nb = jp.read(in_folder / in_file)
+
+            # Parameters
+            sol = 0.0
+            epsilon1 = 0.0
+            epsilon2 = 0.0
+            albedo = 0.0
             
-            answer = 'here'
-            if num in [2, 3]:
-                answer = ': ' + str(answers[i])
-                i += 1
-            source = f"q{num} answer {answer}"
-            
+            # Keep notebook cells up to and including parameter cells 
+            # (but remove cell containing default parameters)
+            original_cells = []
+            for _, the_cell in enumerate(nb['cells']):
+                
+                # Do not include parameter cell
+                if (
+                    len(the_cell["metadata"]["tags"]) > 0 and 
+                    the_cell["metadata"]["tags"][0] == "parameters"
+                    ):
+                    continue 
+
+                original_cells.append(the_cell)
+
+                # Get injected parameters for use in answer cell
+                if (
+                    len(the_cell["metadata"]["tags"]) > 0 and 
+                    the_cell["metadata"]["tags"][0] == "injected-parameters"
+                    ):
+                    parameters = list(the_cell["source"].split('\n')[1:-1])
+                    sol = float(re.sub("^sol = ", "", parameters[0]))
+                    epsilon1 = float(re.sub("^epsilon1 = ", "", parameters[1]))
+                    epsilon2 = float(re.sub("^epsilon2 = ", "", parameters[2]))
+                    albedo = float(re.sub("^albedo = ", "", parameters[3]))
+                    break # Stop adding cells when we reach injected parameters cell
+
+            new_cells = []
+
+            # Add question cells for student book
+            source = f"q1: Given the above parameters, find the temperature of layer 1."
+            question = new_markdown_cell(source=source)
+            question['metadata']['quesnum']='1'
+            question['metadata']['ctype']='question'
+            new_cells.append(question)
+
+            # Save student notebook
+            nb['cells'] = original_cells + new_cells
+            out_file = out_folder / "student" / f"{in_file[:-6]}_student"
+            out_file = out_file.with_suffix('.md')
+            jp.write(nb,out_file,fmt='md:myst')
+            out_file = out_file.with_suffix('.ipynb')
+            jp.write(nb,out_file)
+
+            # Add solutions
+            T1 = str(do_two_matrix(sol, albedo, epsilon1, epsilon2)[1])
+            source = f"answer: {T1}"
             answer = new_markdown_cell(source=source)
-            answer['metadata']['quesnum']=a_cell['metadata']['quesnum']
+            answer['metadata']['quesnum'] = '1'
             answer['metadata']['ctype']='answer'
             new_cells.append(answer)
-        nb['cells'] = new_cells
-
-    # remove answer cells
-    if remove:
-        new_cells = []
-        for a_cell in nb['cells']:
-            if a_cell['metadata']['ctype'] != 'answer':
-                new_cells.append(a_cell)
             
-        nb['cells'] = new_cells
-    #
-    # write two versions of the notebook -- md and ipynb
-    #
-    out_file = out_file.with_suffix('.md')
-    jp.write(nb,out_file,fmt='md:myst')
-    out_file = out_file.with_suffix('.ipynb')
-    jp.write(nb,out_file)
-
-
-# get answers from two_layers.py
-def get_answers():
-    # get parameters
-    sol = two_layers.sol
-    epsilon1 = two_layers.epsilon1
-    epsilon2 = two_layers.epsilon2
-    albedo = two_layers.albedo
-
-    # get question answers
-    q1 = two_layers.do_two(sol, epsilon1, albedo)
-    q2 = two_layers.do_two_matrix(sol, epsilon1, epsilon2, albedo)
-    
-    return [q1, q2]
-
+            # Save solution notebook
+            nb['cells'] = original_cells + new_cells
+            out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
+            print(out_file)
+            out_file = out_file.with_suffix('.md')
+            jp.write(nb,out_file,fmt='md:myst')
+            out_file = out_file.with_suffix('.ipynb')
+            jp.write(nb,out_file)
+        
 
 if __name__ == "__main__":
     main()
