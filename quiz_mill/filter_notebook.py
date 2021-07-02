@@ -42,54 +42,57 @@ def main(jupyin,jupyout, remove, add):
 
     # Iterate through each unfiltered notebook and filter it
     for _, _, files in os.walk(in_folder, topdown=False):
+
+        quiz_num = 1
         
         for in_file in files:
             nb = jp.read(in_folder / in_file)
 
-            # Parameters
-            parameter_cell = ""
+            new_cells = []
+
+            # Add quiz metadata
+            quiz = new_markdown_cell(source=f"# Two Layers Quiz {quiz_num}")
+            quiz["metadata"]["ctype"] = "quiz"
+            quiz["metadata"]["title"] = f"Two Layers Quiz {quiz_num}"
+            quiz["metadata"]["allowed_attempts"] = 3
+            quiz["metadata"]["scoring_policy"] = "keep_highest"
+            quiz["metadata"]["cant_go_back"] = False
+            quiz["metadata"]["shuffle_answers"] = False
+            new_cells.append(quiz)
+            quiz_num += 1
+
+            # Add group metadata
+            group = new_markdown_cell(source="## Questions")
+            group["metadata"]["ctype"] = "group"
+            group["metadata"]["name"] = "general"
+            new_cells.append(group)
+
+            # Get parameters
             sol = 0.0
             epsilon1 = 0.0
             epsilon2 = 0.0
             albedo = 0.0
-            
-            # Keep notebook cells up to and including parameter cells 
-            # (but remove cell containing default parameters)
-            original_cells = []
             for _, the_cell in enumerate(nb['cells']):
-                
-                # Do not include parameter cell
-                if (
-                    len(the_cell["metadata"]["tags"]) > 0 and 
-                    the_cell["metadata"]["tags"][0] == "parameters"
-                    ):
-                    continue 
-
-                original_cells.append(the_cell)
-
-                # Get injected parameters for use in answer cell
                 if (
                     len(the_cell["metadata"]["tags"]) > 0 and 
                     the_cell["metadata"]["tags"][0] == "injected-parameters"
                     ):
-                    parameter_cell = the_cell["source"]
-                    parameters = list(parameter_cell.split('\n')[1:-1])
+                    parameters = list(the_cell["source"].split('\n')[1:-1])
                     sol = float(re.sub("^sol = ", "", parameters[0]))
                     epsilon1 = float(re.sub("^epsilon1 = ", "", parameters[1]))
                     epsilon2 = float(re.sub("^epsilon2 = ", "", parameters[2]))
                     albedo = float(re.sub("^albedo = ", "", parameters[3]))
-                    break # Stop adding cells when we reach injected parameters cell
+                    break
 
-            new_cells = []
-
-            # Add question cells for student book
-            source = """\
-{}
+            # Add question cells
+            source = f"""\
+### Question 1
+sol = {sol}, epsilon1 = {epsilon1}, epsilon2 = {epsilon2}, albedo = {albedo}
 
 Given the above parameters, find the temperature of layer 1.
 
 Give your answer to three decimal places.\
-""".format(parameter_cell)
+"""
             question = new_markdown_cell(source=source)
             question["metadata"]["quesnum"]='1'
             question["metadata"]["ctype"]='question'
@@ -97,7 +100,7 @@ Give your answer to three decimal places.\
             new_cells.append(question)
 
             # Save student notebook
-            nb['cells'] = original_cells + new_cells
+            nb['cells'] = new_cells
             out_file = out_folder / "student" / f"{in_file[:-6]}_student"
             out_file = out_file.with_suffix('.md')
             jp.write(nb,out_file,fmt='md:myst')
@@ -106,26 +109,14 @@ Give your answer to three decimal places.\
 
             # Add solutions
             T1 = do_two_matrix(sol, albedo, epsilon1, epsilon2)[1]
-            source = "* {:0.2f}, 3: precision_answer".format(T1)
+            source = "* {:0.3f}, 3: precision_answer".format(T1)
             answer0 = new_markdown_cell(source=source)
             answer0['metadata']['quesnum'] = '1'
             answer0['metadata']['ctype']='answer'
             new_cells.append(answer0)
-            source = """Check this with Python:
-
-```{code-cell} ipython3
-:ctype: answer
-:quesnum: 1
-
-np.testing.assert_almost_equal(ans,6.383,decimals=3)
-```"""
-            answer1 = new_markdown_cell(source=source)
-            answer1['metadata']['quesnum'] = '1'
-            answer1['metadata']['ctype']='answer'
-            new_cells.append(answer1)
             
             # Save solution notebook
-            nb['cells'] = original_cells + new_cells
+            nb['cells'] = new_cells
             out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
             print(out_file)
             out_file = out_file.with_suffix('.md')
