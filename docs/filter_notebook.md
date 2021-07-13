@@ -25,9 +25,9 @@ This script takes in a directory path containing "unfiltered" notebooks and outp
 
 +++
 
-$ filter-notebook PATH/TO/UNFILTERED/NOTEBOOKS/ PATH/TO/FILTERED/NOTEBOOKS
+```filter-notebook PATH/TO/UNFILTERED/NOTEBOOKS/ PATH/TO/FILTERED/NOTEBOOKS```
 
-Note: PATH/TO/FILTERED/NOTEBOOKS/ must contain two sub-folders called *solution* and *student*
+Note: PATH/TO/FILTERED/NOTEBOOKS/ must contain two sub-folders called *solution* and *student*.
 
 +++
 
@@ -48,16 +48,12 @@ import re
 from .solve_layers import do_two_matrix
 ```
 
-
-
-+++
-
 ### Helper functions
 
 +++
 
 #### Add quiz metadata
-Adds metadata to indicate that our notebook is a quiz. We are also able to customize quiz options. 
+Adds metadata to indicate that our notebook is a quiz. We are also able to customize quiz options.
 
 ```{code-cell} ipython3
 def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, scoring_policy="keep_highest", cant_go_back=False, shuffle_answers=False):
@@ -71,10 +67,6 @@ def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, s
     return quiz
 ```
 
-
-
-+++
-
 #### Add group metadata
 Indicates the start of the quiz questions.
 
@@ -85,10 +77,6 @@ def add_group_metadata():
     group["metadata"]["name"] = "general"
     return group
 ```
-
-
-
-+++
 
 #### Get injected parameters
 Each unfiltered notebook contains injected random parameters (from generate_notebooks.py). This function parses the values from the notebook to get the answer for our questions.
@@ -111,10 +99,6 @@ def get_injected_parameters(nb):
     return sol,epsilon1,epsilon2,albedo
 ```
 
-
-
-+++
-
 #### Add questions cells
 Creates a question cell containing the appropriate metadata.
 
@@ -134,10 +118,6 @@ Give your answer to three decimal places.\
     question["metadata"]["question_type"] = "numerical_question"
     return question
 ```
-
-
-
-+++
 
 #### Get layer 1 answer
 Creates an answer cell containing the temperature of layer 1.
@@ -165,10 +145,6 @@ def save_student_notebook(out_folder, in_file, nb, new_cells):
     jp.write(nb,out_file)
 ```
 
-
-
-+++
-
 #### Save solution notebook
 Saves solution notebook to user-inputted folder.
 
@@ -182,10 +158,6 @@ def save_solution_notebook(out_folder, in_file, nb, new_cells):
     out_file = out_file.with_suffix('.ipynb')
     jp.write(nb,out_file)
 ```
-
-
-
-+++
 
 ### Main function
 How it works:

@@ -1,9 +1,50 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.10.3
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
+# Generate Notebooks
+Script to generate notebooks with random parameters. (Specific to Two Layers quizzes)
+
++++
+
+## Running the script
+```python generate_notebooks.py -n <INSERT NUM HERE>```
+
++++
+
+## How the script works
+
++++
+
+Preconditions: 
+1. **two_layers.ipynb** is in **output/** folder.
+2. **notebooks/output/unfiltered/** folder exists.
+
++++
+
+### Import libraries
+
+```{code-cell} ipython3
 import papermill as pm
 import argparse
 import random
+```
 
-# TODO: fix paths so scripts can be run from any directory
+### Main function
+1. Instantiate an ArgumentParser object which allows users to input the number of the notebooks they want to generate
+2. Generate random parameters
+3. Inject the random parameters into a new notebook using papermill library
 
+```{code-cell} ipython3
 # Generates specified number of two_layers.ipynb notebooks with random parameters
 # Example command to generate 5 notebooks with random parameters:
 #   python generate_notebooks.py -n 5
@@ -28,3 +69,4 @@ if __name__=="__main__":
         )
 
 
+```

@@ -1,6 +1,7 @@
 format: jb-book
 root: index
-parts:
 chapters:
-- file: initial-notebook 
-  title: Initial notebook
+- file: workflow
+- file: generate_notebooks
+- file: filter_notebook
+- file: send_to_canvas
