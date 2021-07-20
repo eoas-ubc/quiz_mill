@@ -17,10 +17,13 @@ Bash script to send "filtered" solution markdown files to Canvas.
 ## Running the script
 
 Preconditions:  
-1. Canvas API token is in a file called token.yml in project home directory.
+1. Canvas API token is in a file called token.yaml in project home directory.
 2. Command is run from the project home directory 
 
-```sh quiz_mill/send_to_canvas.sh```
+```{code-cell} ipython3
+%%bash
+sh ../quiz_mill/send_to_canvas.sh
+```
 
 ## How the script works
 1. Gets all "filtered" solution markdown files in **notebooks/output/filtered/solution/**

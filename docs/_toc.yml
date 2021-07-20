@@ -5,3 +5,4 @@ chapters:
 - file: generate_notebooks
 - file: filter_notebook
 - file: send_to_canvas
+- file: canvas_api

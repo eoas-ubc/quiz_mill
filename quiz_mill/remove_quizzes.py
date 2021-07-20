@@ -2,7 +2,9 @@ from canvasapi import Canvas
 from pathlib import Path
 import yaml
 
-path_to_token = Path('token.yaml').resolve()
+verbose = True
+
+path_to_token = Path('../token.yaml').absolute()
 file = open(path_to_token)
 token = yaml.load(file, Loader=yaml.FullLoader)
 
@@ -19,3 +21,5 @@ quizzes_to_delete = []
 for assignment in assignments:
     if 'Two Layers' in str(assignment):
         assignment.delete()
+        if verbose:
+            print(str(assignment), "deleted")

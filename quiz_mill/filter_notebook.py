@@ -22,6 +22,7 @@ from .solve_layers import do_two_matrix
 
 
 @click.command()
+#TODO: should i remove the arguments since it stays the same?
 @click.argument("jupyin", type=str, nargs=1)
 @click.argument("jupyout", type=str, nargs=1)
 def main(jupyin,jupyout):
@@ -72,7 +73,7 @@ def main(jupyin,jupyout):
 def save_solution_notebook(out_folder, in_file, nb, new_cells):
     nb['cells'] = new_cells
     out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
-    print(out_file)
+    # print(out_file)
     out_file = out_file.with_suffix('.md')
     jp.write(nb,out_file,fmt='md:myst')
     out_file = out_file.with_suffix('.ipynb')

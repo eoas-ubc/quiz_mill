@@ -1,40 +1,38 @@
----
-jupytext:
-  text_representation:
-    extension: .md
-    format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
-kernelspec:
-  display_name: Python 3
-  language: python
-  name: python3
----
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.10.3
+#   kernelspec:
+#     display_name: Python 3
+#     language: python
+#     name: python3
+# ---
 
-# Filter Notebook
+# %% [markdown]
+# # Filter Notebook
 
-+++
+# %% [markdown]
+# Note: currently only works for Two Layers quizzes.
+#
+# This script takes in a directory path containing "unfiltered" notebooks and outputs "filtered" student and solution notebooks. "Unfiltered" notebooks do not contain metadata associated with questions, answers, and parameters. "Filtered" student notebooks only contains questions, while the solution notebooks contains questions and answers. Both types of "filtered" notebooks contain specific metadata, allowing us to use the **md2canvas** command to upload our notebooks as quizzes to canvas.
 
-Note: currently only works for Two Layers quizzes.
+# %% [markdown]
+# ## Running the script
 
-This script takes in a directory path containing "unfiltered" notebooks and outputs "filtered" student and solution notebooks. "Unfiltered" notebooks do not contain metadata associated with questions, answers, and parameters. "Filtered" student notebooks only contains questions, while the solution notebooks contains questions and answers. Both types of "filtered" notebooks contain specific metadata, allowing us to use the **md2canvas** command to upload our notebooks as quizzes to canvas.
+# %% language="bash"
+# filter-notebook ../notebooks/output/unfiltered/ ../notebooks/output/filtered/
 
-+++
+# %% [markdown]
+# ## How the script works
 
-## Running the script
+# %% [markdown]
+# ### Import libraries
 
-```{code-cell} ipython3
-%%bash
-filter-notebook ../notebooks/output/unfiltered/ ../notebooks/output/filtered/
-```
-
-## How the script works
-
-+++
-
-### Import libraries
-
-```{code-cell} ipython3
+# %%
 import os
 import jupytext as jp
 from jupytext.cli import jupytext
@@ -43,16 +41,16 @@ from nbformat.v4.nbbase import new_code_cell, new_markdown_cell
 import click
 import re
 from .solve_layers import do_two_matrix
-```
 
-### Helper functions
 
-+++
+# %% [markdown]
+# ### Helper functions
 
-#### Add quiz metadata
-Adds metadata to indicate that our notebook is a quiz. We are also able to customize quiz options.
+# %% [markdown]
+# #### Add quiz metadata
+# Adds metadata to indicate that our notebook is a quiz. We are also able to customize quiz options.
 
-```{code-cell} ipython3
+# %%
 def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, scoring_policy="keep_highest", cant_go_back=False, shuffle_answers=False):
     quiz = new_markdown_cell(source=f"# {title} {quiz_num}")
     quiz["metadata"]["ctype"] = "quiz"
@@ -62,25 +60,27 @@ def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, s
     quiz["metadata"]["cant_go_back"] = cant_go_back
     quiz["metadata"]["shuffle_answers"] = shuffle_answers
     return quiz
-```
 
-#### Add group metadata
-Indicates the start of the quiz questions.
 
-```{code-cell} ipython3
+# %% [markdown]
+# #### Add group metadata
+# Indicates the start of the quiz questions.
+
+# %%
 def add_group_metadata():
     group = new_markdown_cell(source="## Questions")
     group["metadata"]["ctype"] = "group"
     group["metadata"]["name"] = "general"
     return group
-```
 
-#### Get injected parameters
-Each unfiltered notebook contains injected random parameters (from generate_notebooks.py). This function parses the values from the notebook to get the answer for our questions.
 
-Note: specific to Two Layers quizzes.
+# %% [markdown]
+# #### Get injected parameters
+# Each unfiltered notebook contains injected random parameters (from generate_notebooks.py). This function parses the values from the notebook to get the answer for our questions.
+#
+# Note: specific to Two Layers quizzes.
 
-```{code-cell} ipython3
+# %%
 def get_injected_parameters(nb):
     for _, the_cell in enumerate(nb['cells']):
         if (
@@ -94,14 +94,15 @@ def get_injected_parameters(nb):
             albedo = float(re.sub("^albedo = ", "", parameters[3]))
             break
     return sol,epsilon1,epsilon2,albedo
-```
 
-#### Add questions cells
-Creates a question cell containing the appropriate metadata.
 
-Note: specific to Two Layers quizzes.
+# %% [markdown]
+# #### Add questions cells
+# Creates a question cell containing the appropriate metadata.
+#
+# Note: specific to Two Layers quizzes.
 
-```{code-cell} ipython3
+# %%
 def add_question_cells(sol, epsilon1, epsilon2, albedo):
     source = f"""\
 ### Question 1
@@ -114,12 +115,13 @@ Give your answer to three decimal places.\
     question["metadata"]["ctype"]='question'
     question["metadata"]["question_type"] = "numerical_question"
     return question
-```
 
-#### Get layer 1 answer
-Creates an answer cell containing the temperature of layer 1.
 
-```{code-cell} ipython3
+# %% [markdown]
+# #### Get layer 1 answer
+# Creates an answer cell containing the temperature of layer 1.
+
+# %%
 def get_layer_1_ans(sol, epsilon1, epsilon2, albedo):
     T1 = do_two_matrix(sol, albedo, epsilon1, epsilon2)[1]
     source = "* {:0.3f}, 3: precision_answer".format(T1)
@@ -127,12 +129,13 @@ def get_layer_1_ans(sol, epsilon1, epsilon2, albedo):
     answer0['metadata']['quesnum'] = '1'
     answer0['metadata']['ctype']='answer'
     return answer0
-```
 
-#### Save student notebook
-Saves student notebook to user-inputted folder.
 
-```{code-cell} ipython3
+# %% [markdown]
+# #### Save student notebook
+# Saves student notebook to user-inputted folder.
+
+# %%
 def save_student_notebook(out_folder, in_file, nb, new_cells):
     nb['cells'] = new_cells
     out_file = out_folder / "student" / f"{in_file[:-6]}_student"
@@ -140,12 +143,13 @@ def save_student_notebook(out_folder, in_file, nb, new_cells):
     jp.write(nb,out_file,fmt='md:myst')
     out_file = out_file.with_suffix('.ipynb')
     jp.write(nb,out_file)
-```
 
-#### Save solution notebook
-Saves solution notebook to user-inputted folder.
 
-```{code-cell} ipython3
+# %% [markdown]
+# #### Save solution notebook
+# Saves solution notebook to user-inputted folder.
+
+# %%
 def save_solution_notebook(out_folder, in_file, nb, new_cells):
     nb['cells'] = new_cells
     out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
@@ -154,18 +158,19 @@ def save_solution_notebook(out_folder, in_file, nb, new_cells):
     jp.write(nb,out_file,fmt='md:myst')
     out_file = out_file.with_suffix('.ipynb')
     jp.write(nb,out_file)
-```
 
-### Main function
-How it works:
-1. Check if user-inputted directories exist. If yes, continue. Else, return.
-2. Get an "unfiltered" notebook from user-inputted directory
-3. Add appropriate metadata
-4. Add questions and save "filtered" student notebook
-5. Add solutions and save "filtered" solution notebook
-6. Repeat from step 2 until all "unfiltered" notebooks are "filtered"
 
-```{code-cell} ipython3
+# %% [markdown]
+# ### Main function
+# How it works:
+# 1. Check if user-inputted directories exist. If yes, continue. Else, return.
+# 2. Get an "unfiltered" notebook from user-inputted directory
+# 3. Add appropriate metadata
+# 4. Add questions and save "filtered" student notebook
+# 5. Add solutions and save "filtered" solution notebook
+# 6. Repeat from step 2 until all "unfiltered" notebooks are "filtered"
+
+# %%
 @click.command()
 @click.argument("jupyin", type=str, nargs=1)
 @click.argument("jupyout", type=str, nargs=1)
@@ -216,10 +221,10 @@ def main(jupyin,jupyout):
 
 if __name__ == "__main__":
     main()
-```
 
-## Sample outputs
-### Student notebook
-![student notebook](student_notebook.png)
-### Solution notebook
-![solution notebook](solution_notebook.png)
+# %% [markdown]
+# ## Sample outputs
+# ### Student notebook
+# ![student notebook](student_notebook.png)
+# ### Solution notebook
+# ![solution notebook](solution_notebook.png)
