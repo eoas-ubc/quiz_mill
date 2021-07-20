@@ -24,20 +24,13 @@ from .solve_layers import do_two_matrix
 @click.command()
 @click.argument("jupyin", type=str, nargs=1)
 @click.argument("jupyout", type=str, nargs=1)
-@click.option("-r", "--remove", is_flag=True, help="Remove answer cells")
-@click.option("-a", "--add", is_flag=True, help="Add answer cells with answers")
-def main(jupyin,jupyout, remove, add):
+def main(jupyin,jupyout):
     in_folder = Path(jupyin).resolve()
     out_folder = Path(jupyout).resolve()
 
-    # Immediately return if directory does not exists
-    if not in_folder.is_dir():
-        print("Directory containing unfiltered notebooks does not exist.")
-        print(f"Resolved directory path: {in_folder}")
-        return
-    elif not out_folder.is_dir():
-        print("Directory to place filtered notebooks does not exist.")
-        print(f"Resolved directory path: {out_folder}")
+    # Return if directory does not exists
+    if not in_folder.is_dir() or not out_folder.is_dir():
+        print('One or more inputted directory paths does not exist.')
         return
 
     # Iterate through each unfiltered notebook and filter it
@@ -51,79 +44,100 @@ def main(jupyin,jupyout, remove, add):
             new_cells = []
 
             # Add quiz metadata
-            quiz = new_markdown_cell(source=f"# Two Layers Quiz {quiz_num}")
-            quiz["metadata"]["ctype"] = "quiz"
-            quiz["metadata"]["title"] = f"Two Layers Quiz {quiz_num}"
-            quiz["metadata"]["allowed_attempts"] = 3
-            quiz["metadata"]["scoring_policy"] = "keep_highest"
-            quiz["metadata"]["cant_go_back"] = False
-            quiz["metadata"]["shuffle_answers"] = False
+            quiz = add_quiz_metadata(quiz_num, title="Two Layers Quiz", allowed_attempts=3, scoring_policy="keep_highest", cant_go_back=False, shuffle_answers=False)
             new_cells.append(quiz)
             quiz_num += 1
 
             # Add group metadata
-            group = new_markdown_cell(source="## Questions")
-            group["metadata"]["ctype"] = "group"
-            group["metadata"]["name"] = "general"
+            group = add_group_metadata()
             new_cells.append(group)
 
             # Get parameters
-            sol = 0.0
-            epsilon1 = 0.0
-            epsilon2 = 0.0
-            albedo = 0.0
-            for _, the_cell in enumerate(nb['cells']):
-                if (
-                    len(the_cell["metadata"]["tags"]) > 0 and 
-                    the_cell["metadata"]["tags"][0] == "injected-parameters"
-                    ):
-                    parameters = list(the_cell["source"].split('\n')[1:-1])
-                    sol = float(re.sub("^sol = ", "", parameters[0]))
-                    epsilon1 = float(re.sub("^epsilon1 = ", "", parameters[1]))
-                    epsilon2 = float(re.sub("^epsilon2 = ", "", parameters[2]))
-                    albedo = float(re.sub("^albedo = ", "", parameters[3]))
-                    break
+            sol, epsilon1, epsilon2, albedo = get_injected_parameters(nb)
 
             # Add question cells
-            source = f"""\
-### Question 1
-sol = {sol}, epsilon1 = {epsilon1}, epsilon2 = {epsilon2}, albedo = {albedo}
-
-Given the above parameters, find the temperature of layer 1.
-
-Give your answer to three decimal places.\
-"""
-            question = new_markdown_cell(source=source)
-            question["metadata"]["quesnum"]='1'
-            question["metadata"]["ctype"]='question'
-            question["metadata"]["question_type"] = "numerical_question"
+            question = add_question_cells(sol, epsilon1, epsilon2, albedo)
             new_cells.append(question)
 
             # Save student notebook
-            nb['cells'] = new_cells
-            out_file = out_folder / "student" / f"{in_file[:-6]}_student"
-            out_file = out_file.with_suffix('.md')
-            jp.write(nb,out_file,fmt='md:myst')
-            out_file = out_file.with_suffix('.ipynb')
-            jp.write(nb,out_file)
+            save_student_notebook(out_folder, in_file, nb, new_cells)
 
             # Add solutions
-            T1 = do_two_matrix(sol, albedo, epsilon1, epsilon2)[1]
-            source = "* {:0.3f}, 3: precision_answer".format(T1)
-            answer0 = new_markdown_cell(source=source)
-            answer0['metadata']['quesnum'] = '1'
-            answer0['metadata']['ctype']='answer'
+            answer0 = get_layer_1_ans(sol, epsilon1, epsilon2, albedo)
             new_cells.append(answer0)
             
             # Save solution notebook
-            nb['cells'] = new_cells
-            out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
-            print(out_file)
-            out_file = out_file.with_suffix('.md')
-            jp.write(nb,out_file,fmt='md:myst')
-            out_file = out_file.with_suffix('.ipynb')
-            jp.write(nb,out_file)
-        
+            save_solution_notebook(out_folder, in_file, nb, new_cells)
+
+def save_solution_notebook(out_folder, in_file, nb, new_cells):
+    nb['cells'] = new_cells
+    out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
+    print(out_file)
+    out_file = out_file.with_suffix('.md')
+    jp.write(nb,out_file,fmt='md:myst')
+    out_file = out_file.with_suffix('.ipynb')
+    jp.write(nb,out_file)
+
+def get_layer_1_ans(sol, epsilon1, epsilon2, albedo):
+    T1 = do_two_matrix(sol, albedo, epsilon1, epsilon2)[1]
+    source = "* {:0.3f}, 3: precision_answer".format(T1)
+    answer0 = new_markdown_cell(source=source)
+    answer0['metadata']['quesnum'] = '1'
+    answer0['metadata']['ctype']='answer'
+    return answer0
+
+def save_student_notebook(out_folder, in_file, nb, new_cells):
+    nb['cells'] = new_cells
+    out_file = out_folder / "student" / f"{in_file[:-6]}_student"
+    out_file = out_file.with_suffix('.md')
+    jp.write(nb,out_file,fmt='md:myst')
+    out_file = out_file.with_suffix('.ipynb')
+    jp.write(nb,out_file)
+
+def add_question_cells(sol, epsilon1, epsilon2, albedo):
+    source = f"""\
+### Question 1
+sol = {sol}, epsilon1 = {epsilon1}, epsilon2 = {epsilon2}, albedo = {albedo}
+Given the above parameters, find the temperature of layer 1.
+Give your answer to three decimal places.\
+"""
+    question = new_markdown_cell(source=source)
+    question["metadata"]["quesnum"]='1'
+    question["metadata"]["ctype"]='question'
+    question["metadata"]["question_type"] = "numerical_question"
+    return question
+
+def get_injected_parameters(nb):
+    for _, the_cell in enumerate(nb['cells']):
+        if (
+                    len(the_cell["metadata"]["tags"]) > 0 and 
+                    the_cell["metadata"]["tags"][0] == "injected-parameters"
+                    ):
+            parameters = list(the_cell["source"].split('\n')[1:-1])
+            sol = float(re.sub("^sol = ", "", parameters[0]))
+            epsilon1 = float(re.sub("^epsilon1 = ", "", parameters[1]))
+            epsilon2 = float(re.sub("^epsilon2 = ", "", parameters[2]))
+            albedo = float(re.sub("^albedo = ", "", parameters[3]))
+            break
+    return sol,epsilon1,epsilon2,albedo
+
+# Add quiz metadata
+def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, scoring_policy="keep_highest", cant_go_back=False, shuffle_answers=False):
+    quiz = new_markdown_cell(source=f"# {title} {quiz_num}")
+    quiz["metadata"]["ctype"] = "quiz"
+    quiz["metadata"]["title"] = f"{title} {quiz_num}"
+    quiz["metadata"]["allowed_attempts"] = allowed_attempts
+    quiz["metadata"]["scoring_policy"] = scoring_policy
+    quiz["metadata"]["cant_go_back"] = cant_go_back
+    quiz["metadata"]["shuffle_answers"] = shuffle_answers
+    return quiz
+
+# Add group metadata
+def add_group_metadata():
+    group = new_markdown_cell(source="## Questions")
+    group["metadata"]["ctype"] = "group"
+    group["metadata"]["name"] = "general"
+    return group
 
 if __name__ == "__main__":
     main()

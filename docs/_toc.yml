@@ -1,0 +1,7 @@
+format: jb-book
+root: index
+chapters:
+- file: workflow
+- file: generate_notebooks
+- file: filter_notebook
+- file: send_to_canvas
