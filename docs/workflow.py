@@ -58,10 +58,10 @@
 
 # %% [markdown]
 # #### 3. Generate *n* notebooks with random parameters
-# The below command generates 10 notebooks with random parameters.  
+# The below command generates 5 notebooks with random parameters.
 
 # %% language="bash"
-# NUM=10
+# NUM=5
 # python ../quiz_mill/generate_notebooks.py -n $NUM
 
 # %% [markdown]
