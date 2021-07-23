@@ -1,4 +1,4 @@
-name: notebook
+name: quiz-mill
 channels:
   - eoas_ubc
   - conda-forge
