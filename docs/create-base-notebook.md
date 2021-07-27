@@ -12,3 +12,6 @@ kernelspec:
 ---
 
 # Create base notebook
+Many of the commands and scripts used depend on the specific structure of the base notebook. Your base notebook is what the quizzes are ultimately based upon.
+
+*incomplete*

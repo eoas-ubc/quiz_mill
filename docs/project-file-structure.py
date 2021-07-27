@@ -14,3 +14,6 @@
 
 # %% [markdown]
 # # Project file structure
+# Many scripts and commands require a specific file structure to run properly. The below diagram shows what the project file structure should look like (only folders that are required by scripts and commands are shown).
+#
+# ![file structure](file_structure.png)

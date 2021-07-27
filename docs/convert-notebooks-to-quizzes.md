@@ -12,3 +12,8 @@ kernelspec:
 ---
 
 # Convert Jupyter notebooks to Canvas quizzes
+This guide shows you how you go from Jupyter notebooks to generating multiple quizzes and sending them to Canvas. 
+***
+
+### Step 1: Remove any old "Two Layers" quizzes from Canvas
+Run the following command

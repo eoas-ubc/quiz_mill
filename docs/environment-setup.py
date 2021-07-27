@@ -14,7 +14,7 @@
 
 # %% [markdown]
 # # Environment setup
-# If you are running on your own machine, you may want to set up a local environment. The below instructions assume you are using conda.
+# If you are running on your own machine, you may want to set up a local environment. The below instructions assume you are going to be using conda.
 #
 # ---
 # ## Before you start
