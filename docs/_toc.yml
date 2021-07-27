@@ -1,7 +1,30 @@
 format: jb-book
 root: index
-chapters:
-- file: workflow
-- file: generate_notebooks
-- file: filter_notebook
-- file: send_to_canvas
+parts:
+  - caption: Documentation
+    chapters:
+    - file: quickstart
+    - file: getting-started
+      title: Getting Started
+      sections:
+      - file: environment-setup
+      - file: create-base-notebook
+      - file: project-file-structure
+      - file: canvas-api
+    - file: how-to-guides
+      title: How-to guides
+      sections:
+      - file: convert-notebooks-to-quizzes
+    - file: explanation
+      title: Explanation
+      sections:
+      - file: remove-quizzes
+      - file: remove-output-notebooks
+      - file: generate-notebooks
+      - file: filter-notebooks
+      - file: send-to-canvas
+    - file: reference
+      title: Reference
+      sections:
+      - file: terminology
+      - file: commands

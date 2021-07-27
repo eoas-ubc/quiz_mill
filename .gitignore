@@ -6,3 +6,9 @@
 world_facts.ipynb
 .ipynb_checkpoints
 *egg-info/
+
+token*
+_build/
+ignore/
+other/
+*.DS_Store

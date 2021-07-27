@@ -16,6 +16,18 @@ execute:
 html:
   home_page_in_navbar         : false
 
+#######################################################################################
+# Launch button settings
+launch_buttons:
+  notebook_interface        : classic  # The interface interactive links will activate ["classic", "jupyterlab"]
+  jupyterhub_url            : "https://eoastest.xyz"  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
+
+repository:
+  url                       : https://github.com/carolz19/quiz_mill  # The URL to your book's repository
+  path_to_book              : "docs"  # A path to your book's folder, relative to the repository root.
+  branch                    : cz-docs  # Which branch of the repository should be used when creating links
+
+
 # #######################################################################################
 # Interact link settings
 notebook_interface          : "notebook"

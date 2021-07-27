@@ -1,21 +1,30 @@
 from canvasapi import Canvas
 from pathlib import Path
 import yaml
+import click
 
-path_to_token = Path('token.yaml').resolve()
-file = open(path_to_token)
-token = yaml.load(file, Loader=yaml.FullLoader)
+@click.command()
+@click.option("-v", "--verbose", is_flag=True, default=False)
+def main(verbose):
 
-API_URL = "https://canvas.ubc.ca/"
-API_KEY = token
+    path_to_token = Path('../token.yaml').absolute()
+    file = open(path_to_token)
+    token = yaml.load(file, Loader=yaml.FullLoader)
 
-canvas = Canvas(API_URL, token)
+    API_URL = "https://canvas.ubc.ca/"
+    API_KEY = token
 
-course = canvas.get_course(51824)
+    canvas = Canvas(API_URL, API_KEY)
 
-assignments = course.get_assignments()
+    course = canvas.get_course(51824)
 
-quizzes_to_delete = []
-for assignment in assignments:
-    if 'Two Layers' in str(assignment):
-        assignment.delete()
+    assignments = course.get_assignments()
+
+    for assignment in assignments:
+        if 'Two Layers' in str(assignment):
+            assignment.delete()
+            if verbose:
+                print(str(assignment), "deleted")
+
+if __name__=="__main__":
+    main()

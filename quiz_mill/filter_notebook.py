@@ -22,6 +22,7 @@ from .solve_layers import do_two_matrix
 
 
 @click.command()
+#TODO: should i remove the arguments since it stays the same?
 @click.argument("jupyin", type=str, nargs=1)
 @click.argument("jupyout", type=str, nargs=1)
 def main(jupyin,jupyout):
@@ -35,8 +36,6 @@ def main(jupyin,jupyout):
 
     # Iterate through each unfiltered notebook and filter it
     for _, _, files in os.walk(in_folder, topdown=False):
-
-        quiz_num = 1
         
         for in_file in files:
             nb = jp.read(in_folder / in_file)
@@ -44,9 +43,9 @@ def main(jupyin,jupyout):
             new_cells = []
 
             # Add quiz metadata
+            quiz_num = re.sub("^output_two_layers", "", in_file)[0]
             quiz = add_quiz_metadata(quiz_num, title="Two Layers Quiz", allowed_attempts=3, scoring_policy="keep_highest", cant_go_back=False, shuffle_answers=False)
             new_cells.append(quiz)
-            quiz_num += 1
 
             # Add group metadata
             group = add_group_metadata()
@@ -72,7 +71,7 @@ def main(jupyin,jupyout):
 def save_solution_notebook(out_folder, in_file, nb, new_cells):
     nb['cells'] = new_cells
     out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
-    print(out_file)
+    # print(out_file)
     out_file = out_file.with_suffix('.md')
     jp.write(nb,out_file,fmt='md:myst')
     out_file = out_file.with_suffix('.ipynb')
