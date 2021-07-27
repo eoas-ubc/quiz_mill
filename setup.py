@@ -14,7 +14,8 @@ setup(
           'console_scripts': [
               'run-papermill = quiz_mill.run_papermill:main',
               'filter-notebook = quiz_mill.filter_notebook:main',
-              'generate = quiz_mill.generate_notebooks:main'
+              'generate-notebooks = quiz_mill.generate_notebooks:main',
+              'remove-quizzes = quiz_mill.remove_quizzes:main',
           ]
     },
     keywords='eoas ubc ocese',
