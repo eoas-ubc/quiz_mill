@@ -16,6 +16,8 @@ setup(
               'filter-notebook = quiz_mill.filter_notebook:main',
               'generate-notebooks = quiz_mill.generate_notebooks:main',
               'remove-quizzes = quiz_mill.remove_quizzes:main',
+              'to-canvas = quiz_mill.send_to_canvas:main',
+              'clean-output = quiz_mill.clean_output:main',
           ]
     },
     keywords='eoas ubc ocese',

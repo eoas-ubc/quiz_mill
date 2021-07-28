@@ -4,10 +4,11 @@ import yaml
 import click
 
 @click.command()
+@click.argument("path", type=str, nargs=1) # path to token.yaml file
 @click.option("-v", "--verbose", is_flag=True, default=False)
-def main(verbose):
+def main(path, verbose):
 
-    path_to_token = Path('../token.yaml').absolute()
+    path_to_token = Path(path).absolute()
     file = open(path_to_token)
     token = yaml.load(file, Loader=yaml.FullLoader)
 
