@@ -17,7 +17,7 @@ Skip all the details and run the below code cell to generate quizzes and push th
 +++
 
 ## Requirements
-1. Canvas API token is in outermost `quiz-mill/` folder. Learn how to get the Canvas API token [here]
+1. Canvas API token is in outermost `quiz-mill/` folder. Learn how to get the Canvas API token [here](canvas-api.ipynb).
 
 +++
 
@@ -26,7 +26,7 @@ Run this code cell (assign NUM variable the desired number of quizzes):
 ```{code-cell} ipython3
 %%bash
 NUM=5
-sh do_all.sh $NUM 
+sh ../quiz_mill/do_all.sh $NUM 
 ```
 
 What did the above cell do?

@@ -14,7 +14,7 @@ kernelspec:
 # Getting started
 These tutorials will help you setup and prepare to use the converter.
 
-- [Environment setup](environment-setup.ipynb)
-- [Create the base notebook](create-base-notebook.ipynb)
-- [Understanding the project file structure](project-file-structure.ipynb)
-- [Getting the Canvas API token](canvas-api.ipynb)
+- [Environment setup](environment-setup.md)
+- [Create the base notebook](create-base-notebook.md)
+- [Understanding the project file structure](project-file-structure.md)
+- [Getting the Canvas API token](canvas-api.md)

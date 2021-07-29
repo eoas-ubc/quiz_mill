@@ -14,12 +14,7 @@ kernelspec:
 # Remove Quizzes
 Script to remove all Two Layers quizzes from Canvas.
 
-## Running the script
-
-```{code-cell} ipython3
-%%bash
-python ../quiz_mill/remove_quizzes.py
-```
++++
 
 ## How the script works
 
@@ -31,45 +26,32 @@ from pathlib import Path
 import yaml
 ```
 
-### Set variables
-#### Decide whether to print out statements
+### Main function
+How it works:
+1. Get tokens
+2. Get Canvas object
+3. Get course object and assignments
+4. Delete Two Layers quizzes from Canvas
 
 ```{code-cell} ipython3
-verbose = True
-```
+def main(path, verbose):
 
-#### Get tokens
+    path_to_token = Path(path).resolve()
+    file = open(path_to_token / "token.yaml")
+    token = yaml.load(file, Loader=yaml.FullLoader)
 
-```{code-cell} ipython3
-path_to_token = Path('../token.yaml').absolute()
-file = open(path_to_token)
-token = yaml.load(file, Loader=yaml.FullLoader)
-```
+    API_URL = "https://canvas.ubc.ca/"
+    API_KEY = token
 
-#### Get Canvas object
+    canvas = Canvas(API_URL, API_KEY)
 
-```{code-cell} ipython3
-API_URL = "https://canvas.ubc.ca/"
-API_KEY = token
+    course = canvas.get_course(51824)
 
-canvas = Canvas(API_URL, token)
-```
+    assignments = course.get_assignments()
 
-#### Get course object and assignments
-
-```{code-cell} ipython3
-COURSE_NUM = 51824
-course = canvas.get_course(COURSE_NUM)
-assignments = course.get_assignments()
-```
-
-### Delete Two Layers quizzes from Canvas
-
-```{code-cell} ipython3
-quizzes_to_delete = []
-for assignment in assignments:
-    if 'Two Layers' in str(assignment):
-        assignment.delete()
-        if verbose:
-            print(str(assignment), "deleted")
+    for assignment in assignments:
+        if 'Two Layers' in str(assignment):
+            assignment.delete()
+            if verbose:
+                print(str(assignment), "deleted")
 ```

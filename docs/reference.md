@@ -11,4 +11,6 @@ kernelspec:
   name: python3
 ---
 
-# Remove output notebo  oks
+# Reference
+- [Terminology](terminology.ipynb)
+- [Commands](commands.ipynb)

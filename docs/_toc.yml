@@ -19,7 +19,7 @@ parts:
       title: Explanation
       sections:
       - file: remove-quizzes
-      - file: remove-output-notebooks
+      - file: clean-output
       - file: generate-notebooks
       - file: filter-notebooks
       - file: send-to-canvas
