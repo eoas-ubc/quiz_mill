@@ -8,7 +8,6 @@ parts:
       title: Getting Started
       sections:
       - file: environment-setup
-      - file: create-base-notebook
       - file: project-file-structure
       - file: canvas-api
     - file: how-to-guides

@@ -12,5 +12,5 @@ kernelspec:
 ---
 
 # Reference
-- [Terminology](terminology.ipynb)
-- [Commands](commands.ipynb)
+- [Terminology](terminology.md)
+- [Commands](commands.md)

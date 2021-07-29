@@ -17,7 +17,7 @@ kernelspec:
 ```remove [OPTIONS] PATH```   
   
 OPTIONS:  
-**-v, --verbose** := Cause **remove-quizzes** to be verbose, showing quizzes deleted.
+**-v, --verbose** := Cause **remove** to be verbose, showing quizzes deleted.
 
 ARGUMENTS:  
 **PATH** := Required argument. Path to location of `token.yaml` file.  
@@ -27,7 +27,7 @@ ARGUMENTS:
 ```clean [OPTIONS]```  
   
 OPTIONS:  
-**-v, --verbose** := Cause **clean-output** to be verbose, showing files removed.
+**-v, --verbose** := Cause **clean** to be verbose, showing files removed.
 
 ---
 ### generate
@@ -41,7 +41,7 @@ OPTIONS:
 ```filter [OPTIONS] JUPYIN JUPYOUT```  
   
 OPTIONS:  
-**-v, --verbose** := Cause **filter-notebook** to be verbose, showing student and solution notebooks being saved.
+**-v, --verbose** := Cause **filter** to be verbose, showing student and solution notebooks being saved.
 
 ARGUMENTS:  
 **PATH** := Required argument. Path to location of `output/` folder.  
@@ -52,4 +52,4 @@ ARGUMENTS:
   
 OPTIONS:  
 **-c, --coursenum** \<coursenum> := Specify Canvas course number.
-**-v, --verbose** := Cause **filter-notebook** to be verbose, showing student and solution notebooks being saved.
+**-v, --verbose** := Cause **send** to be verbose, showing student and solution notebooks being saved.

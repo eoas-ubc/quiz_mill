@@ -15,6 +15,5 @@ kernelspec:
 These tutorials will help you setup and prepare to use the converter.
 
 - [Environment setup](environment-setup.md)
-- [Create the base notebook](create-base-notebook.md)
 - [Understanding the project file structure](project-file-structure.md)
 - [Getting the Canvas API token](canvas-api.md)

@@ -35,7 +35,7 @@ Specified number of quizzes should be under Quizzes section in Andrew & Harlan S
 ### Setup
 
 #### Obtain a Canvas API token
-See step 1 of [this Canvas API tutorial](canvas_api.ipynb) and place ```token.yaml``` file in outer ```quiz_mill/``` directory.
+See step 1 of [this Canvas API tutorial](canvas-api.md) and place ```token.yaml``` file in outer ```quiz_mill/``` directory.
 
 #### The base notebook
 This is the notebook that all generated notebooks will be based off of. All scripts currently specifically tailored to **two_layers.ipynb**.
@@ -52,7 +52,7 @@ This is the notebook that all generated notebooks will be based off of. All scri
 python ../quiz_mill/remove_quizzes.py
 ```
 
-Read more [here](remove_quizzes.ipynb).   
+Read more [here](remove-quizzes.md).   
 
 #### 2. Remove all files from output/ folder
 
@@ -70,7 +70,7 @@ NUM=5
 python ../quiz_mill/generate_notebooks.py -n $NUM
 ```
 
-Read more [here](generate_notebooks.ipynb).
+Read more [here](generate-notebooks.md).
 
 #### 4. Filter notebooks into student and solution notebooks
 
@@ -79,7 +79,7 @@ Read more [here](generate_notebooks.ipynb).
 filter-notebook ../notebooks/output/unfiltered/ ../notebooks/output/filtered/
 ```
 
-Read more [here](filter_notebook.md).
+Read more [here](filter-notebooks.md).
 #### 5. Send filtered solution notebooks as quizzes to Canvas
 
 ```{code-cell} ipython3
@@ -89,4 +89,4 @@ sh ../quiz_mill/send_to_canvas.sh
 
 Note: requires Canvas API token to run.
 
-Read more [here](send_to_canvas.md).
+Read more [here](send-to-canvas.md).
