@@ -8,8 +8,8 @@ import click
 @click.option("-v", "--verbose", is_flag=True, default=False)
 def main(path, verbose):
 
-    path_to_token = Path(path).absolute()
-    file = open(path_to_token)
+    path_to_token = Path(path).resolve()
+    file = open(path_to_token / "token.yaml")
     token = yaml.load(file, Loader=yaml.FullLoader)
 
     API_URL = "https://canvas.ubc.ca/"

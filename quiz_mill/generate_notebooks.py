@@ -12,7 +12,10 @@ from pathlib import Path
 @click.option("-n", "--number")
 def main(path, number):
     path = Path(path).resolve()
-    print(path)
+    if not path.is_dir():
+        print("Directory path does not exist.")
+        return
+
     for i in range(int(number)):
         sol =       round(random.uniform(0.0, 500.0), 1)
         epsilon1 =  round(random.uniform(0.0, 1.0), 2)
