@@ -15,5 +15,5 @@ kernelspec:
 Term | Definition
 --- | ---
 base | The notebook that quizzes will be based on. Contains the skeleton outline of quizzes.
-unfiltered | Notebooks generated after using `generate-notebook` command. They only contain the randomly generated parameters.
-filtered | Notebooks generated after using the `filter-notebook` command. They are either a student filtered version or a solution filtered version.
+unfiltered | Notebooks generated after using `generate` command. They only contain the randomly generated parameters.
+filtered | Notebooks generated after using the `filter` command. They are either a student filtered version or a solution filtered version.
