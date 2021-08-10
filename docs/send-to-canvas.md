@@ -14,24 +14,37 @@ kernelspec:
 # Send to Canvas
 Bash script to send "filtered" solution markdown files to Canvas.
 
-## Running the script
-
-Preconditions:  
-1. Canvas API token is in a file called token.yaml in project home directory.
-2. Command is run from the project home directory 
-
-```{code-cell} ipython3
-%%bash
-sh ../quiz_mill/send_to_canvas.sh
-```
++++
 
 ## How the script works
+
+### Import libraries
+
+```{code-cell} ipython3
+import subprocess
+import click
+import glob
+```
+
+### Main function 
+How it works:
 1. Gets all "filtered" solution markdown files in **notebooks/output/filtered/solution/**
 2. Send each "filtered" solution markdown file to Canvas
-```
-files=`ls notebooks/output/filtered/solution/*md`
-for file in $files
-do
-    md2canvas $file -f token.yml -c 51824 -u https://canvas.ubc.ca -s
-done
+
+```{code-cell} ipython3
+@click.command()
+@click.argument("path", type=str, nargs=1)
+@click.option("-i", "--id", default=51824)
+@click.option("-v", "--verbose", is_flag=True, default=False)
+def main(path, id, verbose):
+    md_files = glob.glob(path + "*md")
+
+    if not md_files:
+        print('No files to send or directory does not exist.')
+        return
+    
+    for file in md_files:
+        process = subprocess.run(["md2canvas", file, "-f", "../token.yaml", "-c", str(id), "-u", "https://canvas.ubc.ca", "-s"], check=True, stdout=subprocess.PIPE, universal_newlines=True)
+        if verbose:
+            print(process.stdout)
 ```

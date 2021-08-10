@@ -11,4 +11,6 @@ kernelspec:
   name: python3
 ---
 
-# Remove output notebooks
+# Reference
+- [Terminology](terminology.md)
+- [Commands](commands.md)

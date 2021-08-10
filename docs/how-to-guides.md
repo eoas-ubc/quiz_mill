@@ -12,4 +12,4 @@ kernelspec:
 ---
 
 # How-to guides
-- [How to convert Jupyter Notebooks to Canvas quizzes](jupyter-to-canvas.ipynb)
+- [How to convert Jupyter Notebooks to Canvas quizzes](convert-notebooks-to-quizzes.md)

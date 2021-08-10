@@ -16,14 +16,6 @@ Script to generate notebooks with random parameters. (Specific to Two Layers qui
 
 +++
 
-## Running the script
-
-```{code-cell} ipython3
-%%bash
-NUM=10
-python ../quiz_mill/generate_notebooks.py -n $NUM
-```
-
 ## How the script works
 
 +++
@@ -38,36 +30,36 @@ Preconditions:
 
 ```{code-cell} ipython3
 import papermill as pm
-import argparse
 import random
+import click
+from pathlib import Path
 ```
 
 ### Main function
-1. Instantiate an ArgumentParser object which allows users to input the number of the notebooks they want to generate
+How it works:
+1. Verify path exists
 2. Generate random parameters
 3. Inject the random parameters into a new notebook using papermill library
 
 ```{code-cell} ipython3
-# Generates specified number of two_layers.ipynb notebooks with random parameters
-# Example command to generate 5 notebooks with random parameters:
-#   python generate_notebooks.py -n 5
+@click.command()
+@click.argument("path", type=str, nargs=1)
+@click.option("-n", "--number")
+def main(path, number):
+    path = Path(path).resolve()
+    if not path.is_dir():
+        print("Directory path does not exist.")
+        return
 
-if __name__=="__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-n','--number', required=True)
-
-    io_args = parser.parse_args()
-    num_of_quizzes = int(io_args.number)
-
-    for i in range(num_of_quizzes):
+    for i in range(int(number)):
         sol =       round(random.uniform(0.0, 500.0), 1)
         epsilon1 =  round(random.uniform(0.0, 1.0), 2)
         epsilon1 =  round(random.uniform(0.0, 1.0), 2)
         albedo =    round(random.uniform(0.0, 1.0), 2)
 
         pm.execute_notebook(
-            'notebooks/two_layers.ipynb',
-            'notebooks/output/unfiltered/output_two_layers{}.ipynb'.format(i+1), #TODO: replace hard-coded "two_layers" string
+            path / "two_layers.ipynb",
+            path / "output/unfiltered/output_two_layers{}.ipynb".format(i+1),
             parameters=dict(sol=sol, epsilon1=epsilon1, epsilon2=epsilon1, albedo=albedo)
         )
 ```

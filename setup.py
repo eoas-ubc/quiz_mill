@@ -13,11 +13,11 @@ setup(
     entry_points={
           'console_scripts': [
               'run-papermill = quiz_mill.run_papermill:main',
-              'filter-notebook = quiz_mill.filter_notebook:main',
-              'generate-notebooks = quiz_mill.generate_notebooks:main',
-              'remove-quizzes = quiz_mill.remove_quizzes:main',
-              'to-canvas = quiz_mill.send_to_canvas:main',
-              'clean-output = quiz_mill.clean_output:main',
+              'filter = quiz_mill.filter_notebook:main',
+              'generate = quiz_mill.generate_notebooks:main',
+              'remove = quiz_mill.remove_quizzes:main',
+              'send = quiz_mill.send_to_canvas:main',
+              'clean = quiz_mill.clean_output:main',
           ]
     },
     keywords='eoas ubc ocese',

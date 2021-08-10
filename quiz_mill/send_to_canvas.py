@@ -4,9 +4,9 @@ import glob
 
 @click.command()
 @click.argument("path", type=str, nargs=1)
-@click.option("-i", "--id", default=51824)
+@click.option("-c", "--coursenum", default=51824)
 @click.option("-v", "--verbose", is_flag=True, default=False)
-def main(path, id, verbose):
+def main(path, coursenum, verbose):
     md_files = glob.glob(path + "*md")
 
     if not md_files:
@@ -14,7 +14,7 @@ def main(path, id, verbose):
         return
     
     for file in md_files:
-        process = subprocess.run(["md2canvas", file, "-f", "../token.yaml", "-c", str(id), "-u", "https://canvas.ubc.ca", "-s"], check=True, stdout=subprocess.PIPE, universal_newlines=True)
+        process = subprocess.run(["md2canvas", file, "-f", "../token.yaml", "-c", str(coursenum), "-u", "https://canvas.ubc.ca", "-s"], check=True, stdout=subprocess.PIPE, universal_newlines=True)
         if verbose:
             print(process.stdout)
             

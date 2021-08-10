@@ -21,13 +21,6 @@ This script takes in a directory path containing "unfiltered" notebooks and outp
 
 +++
 
-## Running the script
-
-```{code-cell} ipython3
-%%bash
-filter-notebook ../notebooks/output/unfiltered/ ../notebooks/output/filtered/
-```
-
 ## How the script works
 
 +++
@@ -39,7 +32,7 @@ import os
 import jupytext as jp
 from jupytext.cli import jupytext
 from pathlib import Path
-from nbformat.v4.nbbase import new_code_cell, new_markdown_cell
+from nbformat.v4.nbbase import new_markdown_cell
 import click
 import re
 from .solve_layers import do_two_matrix
@@ -133,7 +126,7 @@ def get_layer_1_ans(sol, epsilon1, epsilon2, albedo):
 Saves student notebook to user-inputted folder.
 
 ```{code-cell} ipython3
-def save_student_notebook(out_folder, in_file, nb, new_cells):
+def save_student_notebook(out_folder, in_file, nb, new_cells, verbose):
     nb['cells'] = new_cells
     out_file = out_folder / "student" / f"{in_file[:-6]}_student"
     out_file = out_file.with_suffix('.md')
@@ -146,7 +139,7 @@ def save_student_notebook(out_folder, in_file, nb, new_cells):
 Saves solution notebook to user-inputted folder.
 
 ```{code-cell} ipython3
-def save_solution_notebook(out_folder, in_file, nb, new_cells):
+def save_solution_notebook(out_folder, in_file, nb, new_cells, verbose):
     nb['cells'] = new_cells
     out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
     print(out_file)
@@ -167,11 +160,12 @@ How it works:
 
 ```{code-cell} ipython3
 @click.command()
-@click.argument("jupyin", type=str, nargs=1)
-@click.argument("jupyout", type=str, nargs=1)
-def main(jupyin,jupyout):
-    in_folder = Path(jupyin).resolve()
-    out_folder = Path(jupyout).resolve()
+@click.argument("path", type=str, nargs=1)
+@click.option("-v", "--verbose", is_flag=True, default=False)
+def main(path, verbose):
+    path = Path(path).resolve()
+    in_folder = path / "unfiltered"
+    out_folder = path / "filtered"
 
     # Return if directory does not exists
     if not in_folder.is_dir() or not out_folder.is_dir():
@@ -205,14 +199,14 @@ def main(jupyin,jupyout):
             new_cells.append(question)
 
             # Save student notebook
-            save_student_notebook(out_folder, in_file, nb, new_cells)
+            save_student_notebook(out_folder, in_file, nb, new_cells, verbose)
 
             # Add solutions
             answer0 = get_layer_1_ans(sol, epsilon1, epsilon2, albedo)
             new_cells.append(answer0)
             
             # Save solution notebook
-            save_solution_notebook(out_folder, in_file, nb, new_cells)
+            save_solution_notebook(out_folder, in_file, nb, new_cells, verbose)
 
 if __name__ == "__main__":
     main()
