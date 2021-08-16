@@ -20,11 +20,15 @@ Script to remove all Two Layers quizzes from Canvas.
 
 ### Import libraries
 
-```{code-cell} ipython3
++++
+
+```
 from canvasapi import Canvas
 from pathlib import Path
 import yaml
 ```
+
++++
 
 ### Main function
 How it works:
@@ -33,7 +37,9 @@ How it works:
 3. Get course object and assignments
 4. Delete Two Layers quizzes from Canvas
 
-```{code-cell} ipython3
++++
+
+```
 def main(path, verbose):
 
     path_to_token = Path(path).resolve()

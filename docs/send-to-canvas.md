@@ -20,18 +20,24 @@ Bash script to send "filtered" solution markdown files to Canvas.
 
 ### Import libraries
 
-```{code-cell} ipython3
++++
+
+```
 import subprocess
 import click
 import glob
 ```
+
++++
 
 ### Main function 
 How it works:
 1. Gets all "filtered" solution markdown files in **notebooks/output/filtered/solution/**
 2. Send each "filtered" solution markdown file to Canvas
 
-```{code-cell} ipython3
++++
+
+```
 @click.command()
 @click.argument("path", type=str, nargs=1)
 @click.option("-i", "--id", default=51824)

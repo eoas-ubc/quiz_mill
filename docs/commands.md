@@ -14,13 +14,13 @@ kernelspec:
 # Command reference
 ---
 ### remove
-```remove [OPTIONS] PATH```   
+```remove [OPTIONS] TOKENPATH```   
   
 OPTIONS:  
 **-v, --verbose** := Cause **remove** to be verbose, showing quizzes deleted.
 
 ARGUMENTS:  
-**PATH** := Required argument. Path to location of `token.yaml` file.  
+**TOKENPATH** := Required argument. Path to location of `token.yaml` file.  
 
 ---
 ### clean
@@ -31,20 +31,23 @@ OPTIONS:
 
 ---
 ### generate
-```generate [OPTIONS] PATH```  
+```generate [OPTIONS] NOTEBOOKPATH```  
   
 OPTIONS:
 **-n, --number** \<number> := Specify the number of notebooks to create.  
+
+ARGUMENTS:  
+**NOTEBOOKPATH** := Required argument. Path to `notebooks/` folder.  
     
 ---
 ### filter
-```filter [OPTIONS] JUPYIN JUPYOUT```  
+```filter [OPTIONS] OUTPUTPATH```  
   
 OPTIONS:  
 **-v, --verbose** := Cause **filter** to be verbose, showing student and solution notebooks being saved.
 
 ARGUMENTS:  
-**PATH** := Required argument. Path to location of `output/` folder.  
+**OUTPUTPATH** := Required argument. Path to `output/` folder.  
 
 ---
 ### send

@@ -1,3 +1,9 @@
+"""
+Removes ipynb and py files, leaving only markdown files, so we can run "jb build docs/" without warnings.
+
+Note: user does not need to use this script, unless making edits to Jupyter Book. 
+"""
+
 import os
 
 def delete_files(path, verbose):
@@ -22,4 +28,8 @@ def delete_files(path, verbose):
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 if __name__=="__main__":
-    delete_files("../docs", True)
+    try:
+        delete_files("../docs", True)
+        print('SUCCESS: cleaned docs/ folder.')
+    except FileNotFoundError as e:
+        print('ERROR: Script must be run from inside inner-most quiz_mill/ folder.')

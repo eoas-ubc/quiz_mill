@@ -18,15 +18,21 @@ This script deletes all files in the `output/` folder in the [project file struc
 
 ### Import libraries
 
-```{code-cell} ipython3
++++
+
+```
 import click
 import os
 ```
 
++++
+
 ### Delete files function
 Recursively travels through the directory, deleting files.
 
-```{code-cell} ipython3
++++
+
+```
 def delete_files(path, verbose):
     content = os.listdir(path)
 
@@ -43,10 +49,14 @@ def delete_files(path, verbose):
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 ```
 
++++
+
 ### Main function
 Function that will be run when `clean` command is run.
 
-```{code-cell} ipython3
++++
+
+```
 @click.command()
 @click.option("-v", "--verbose", is_flag=True, default=False)
 def main(verbose):

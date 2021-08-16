@@ -1,3 +1,7 @@
+"""
+Removes all files from the output/ folder.
+"""
+
 import click
 import os
 

@@ -3,19 +3,24 @@ import random
 import click
 from pathlib import Path
 
-# Generates specified number of two_layers.ipynb notebooks with random parameters
-# Example command to generate 5 notebooks with random parameters:
-#   python generate_notebooks.py -n 5
+"""
+Generates specified number of two_layers.ipynb notebooks with random parameters
+Example command to generate 5 notebooks with random parameters:
+    generate ../notebooks -n 5 
+"""
 
 @click.command()
-@click.argument("path", type=str, nargs=1)
+@click.argument("notebookpath", type=str, nargs=1)
 @click.option("-n", "--number")
-def main(path, number):
-    path = Path(path).resolve()
+def main(notebookpath, number):
+    path = Path(notebookpath).resolve()
+
+    """ Check if path exists """
     if not path.is_dir():
         print("Directory path does not exist.")
         return
 
+    """ For each new notebook, generate random parameters """
     for i in range(int(number)):
         sol =       round(random.uniform(0.0, 500.0), 1)
         epsilon1 =  round(random.uniform(0.0, 1.0), 2)

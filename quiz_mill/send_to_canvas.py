@@ -1,3 +1,7 @@
+"""
+Sends all filtered solution markdown files as quizzes to Canvas.
+"""
+
 import subprocess
 import click
 import glob
