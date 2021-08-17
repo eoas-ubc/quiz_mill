@@ -1,14 +1,18 @@
+"""
+Removes all Two Layers quizzes from Canvas.
+"""
+
 from canvasapi import Canvas
 from pathlib import Path
 import yaml
 import click
 
 @click.command()
-@click.argument("path", type=str, nargs=1) # path to token.yaml file
+@click.argument("tokenpath", type=str, nargs=1) # path to token.yaml file
 @click.option("-v", "--verbose", is_flag=True, default=False)
-def main(path, verbose):
+def main(tokenpath, verbose):
 
-    path_to_token = Path(path).resolve()
+    path_to_token = Path(tokenpath).resolve()
     file = open(path_to_token / "token.yaml")
     token = yaml.load(file, Loader=yaml.FullLoader)
 

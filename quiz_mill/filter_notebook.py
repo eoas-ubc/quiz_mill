@@ -8,7 +8,13 @@ questions and answers.
 
 To run:
 
-filter-notebook notebooks/output/unfiltered/ notebooks/output/filtered/ 
+filter [OPTIONS] JUPYIN JUPYOUT
+
+OPTIONS:
+-v, –verbose := Cause filter to be verbose, showing student and solution notebooks being saved.
+
+ARGUMENTS:
+PATH := Required argument. Path to location of output/ folder.
 
 """
 import os

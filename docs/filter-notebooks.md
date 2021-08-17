@@ -27,7 +27,9 @@ This script takes in a directory path containing "unfiltered" notebooks and outp
 
 ### Import libraries
 
-```{code-cell} ipython3
++++
+
+```
 import os
 import jupytext as jp
 from jupytext.cli import jupytext
@@ -38,6 +40,8 @@ import re
 from .solve_layers import do_two_matrix
 ```
 
++++
+
 ### Helper functions
 
 +++
@@ -45,7 +49,9 @@ from .solve_layers import do_two_matrix
 #### Add quiz metadata
 Adds metadata to indicate that our notebook is a quiz. We are also able to customize quiz options.
 
-```{code-cell} ipython3
++++
+
+```
 def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, scoring_policy="keep_highest", cant_go_back=False, shuffle_answers=False):
     quiz = new_markdown_cell(source=f"# {title} {quiz_num}")
     quiz["metadata"]["ctype"] = "quiz"
@@ -57,10 +63,14 @@ def add_quiz_metadata(quiz_num=1, title="Two Layers Quiz", allowed_attempts=3, s
     return quiz
 ```
 
++++
+
 #### Add group metadata
 Indicates the start of the quiz questions.
 
-```{code-cell} ipython3
++++
+
+```
 def add_group_metadata():
     group = new_markdown_cell(source="## Questions")
     group["metadata"]["ctype"] = "group"
@@ -68,12 +78,16 @@ def add_group_metadata():
     return group
 ```
 
++++
+
 #### Get injected parameters
 Each unfiltered notebook contains injected random parameters (from generate_notebooks.py). This function parses the values from the notebook to get the answer for our questions.
 
 Note: specific to Two Layers quizzes.
 
-```{code-cell} ipython3
++++
+
+```
 def get_injected_parameters(nb):
     for _, the_cell in enumerate(nb['cells']):
         if (
@@ -89,12 +103,16 @@ def get_injected_parameters(nb):
     return sol,epsilon1,epsilon2,albedo
 ```
 
++++
+
 #### Add questions cells
 Creates a question cell containing the appropriate metadata.
 
 Note: specific to Two Layers quizzes.
 
-```{code-cell} ipython3
++++
+
+```
 def add_question_cells(sol, epsilon1, epsilon2, albedo):
     source = f"""\
 ### Question 1
@@ -109,10 +127,14 @@ Give your answer to three decimal places.\
     return question
 ```
 
++++
+
 #### Get layer 1 answer
 Creates an answer cell containing the temperature of layer 1.
 
-```{code-cell} ipython3
++++
+
+```
 def get_layer_1_ans(sol, epsilon1, epsilon2, albedo):
     T1 = do_two_matrix(sol, albedo, epsilon1, epsilon2)[1]
     source = "* {:0.3f}, 3: precision_answer".format(T1)
@@ -122,10 +144,14 @@ def get_layer_1_ans(sol, epsilon1, epsilon2, albedo):
     return answer0
 ```
 
++++
+
 #### Save student notebook
 Saves student notebook to user-inputted folder.
 
-```{code-cell} ipython3
++++
+
+```
 def save_student_notebook(out_folder, in_file, nb, new_cells, verbose):
     nb['cells'] = new_cells
     out_file = out_folder / "student" / f"{in_file[:-6]}_student"
@@ -135,10 +161,14 @@ def save_student_notebook(out_folder, in_file, nb, new_cells, verbose):
     jp.write(nb,out_file)
 ```
 
++++
+
 #### Save solution notebook
 Saves solution notebook to user-inputted folder.
 
-```{code-cell} ipython3
++++
+
+```
 def save_solution_notebook(out_folder, in_file, nb, new_cells, verbose):
     nb['cells'] = new_cells
     out_file = out_folder / "solution" / f"{in_file[:-6]}_solution"
@@ -149,6 +179,8 @@ def save_solution_notebook(out_folder, in_file, nb, new_cells, verbose):
     jp.write(nb,out_file)
 ```
 
++++
+
 ### Main function
 How it works:
 1. Check if user-inputted directories exist. If yes, continue. Else, return.
@@ -158,7 +190,9 @@ How it works:
 5. Add solutions and save "filtered" solution notebook
 6. Repeat from step 2 until all "unfiltered" notebooks are "filtered"
 
-```{code-cell} ipython3
++++
+
+```
 @click.command()
 @click.argument("path", type=str, nargs=1)
 @click.option("-v", "--verbose", is_flag=True, default=False)
@@ -211,6 +245,8 @@ def main(path, verbose):
 if __name__ == "__main__":
     main()
 ```
+
++++
 
 ## Sample outputs
 ### Student notebook
