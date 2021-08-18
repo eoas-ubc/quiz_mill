@@ -29,11 +29,11 @@ parts:
       - file: commands
     - file: notebooks
       sections:
-      - file: two_layers
+      - file: ex_two_layers
         title: Base notebook
-      - file: output_two_layers1
+      - file: ex_output_two_layers1
         title: Example unfiltered notebook
-      - file: output_two_layers1_student
+      - file: ex_output_two_layers1_student
         title: Example filtered student notebook
-      - file: output_two_layers1_solution
+      - file: ex_output_two_layers1_solution
         title: Example filtered solution notebook
