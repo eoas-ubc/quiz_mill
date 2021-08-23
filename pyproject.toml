@@ -1,0 +1,8 @@
+#see https://github.com/pypa/setuptools_scm/
+# pyproject.toml
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
+
+# make sure this file is in .gitignore
+[tool.setuptools_scm]
+write_to = "quiz_mill/_version.py"

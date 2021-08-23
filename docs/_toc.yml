@@ -1,0 +1,39 @@
+format: jb-book
+root: index
+parts:
+  - caption: Documentation
+    chapters:
+    - file: quickstart
+    - file: getting-started
+      title: Getting Started
+      sections:
+      - file: environment-setup
+      - file: project-file-structure
+      - file: canvas-api
+    - file: how-to-guides
+      title: How-to guides
+      sections:
+      - file: convert-notebooks-to-quizzes
+    - file: explanation
+      title: Explanation
+      sections:
+      - file: remove-quizzes
+      - file: clean-output
+      - file: generate-notebooks
+      - file: filter-notebooks
+      - file: send-to-canvas
+    - file: reference
+      title: Reference
+      sections:
+      - file: terminology
+      - file: commands
+    - file: notebooks
+      sections:
+      - file: ex_two_layers
+        title: Base notebook
+      - file: ex_output_two_layers1
+        title: Example unfiltered notebook
+      - file: ex_output_two_layers1_student
+        title: Example filtered student notebook
+      - file: ex_output_two_layers1_solution
+        title: Example filtered solution notebook
