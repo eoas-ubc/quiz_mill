@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "${NB_PYTHON_PREFIX}/bin"
+cd $HOME/e211_lib
+${NB_PYTHON_PREFIX}/bin/pip install .
+jupyter lab build
+
+
