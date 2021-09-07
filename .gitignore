@@ -7,9 +7,12 @@ world_facts.ipynb
 .ipynb_checkpoints
 *egg-info/
 
+# only include markdown files in docs
+docs/*.ipynb
+docs/*py
+
+# carol's docs
 token.yaml*
 _build/
-ignore/
-other/
 *.DS_Store
 runbook*

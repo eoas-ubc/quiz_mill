@@ -12,8 +12,8 @@ kernelspec:
 ---
 
 # Command reference
----
-### remove
+
+## remove
 ```remove [OPTIONS] TOKENPATH```   
   
 OPTIONS:  
@@ -23,14 +23,14 @@ ARGUMENTS:
 **TOKENPATH** := Required argument. Path to location of `token.yaml` file.  
 
 ---
-### clean
+## clean
 ```clean [OPTIONS]```  
   
 OPTIONS:  
 **-v, --verbose** := Cause **clean** to be verbose, showing files removed.
 
 ---
-### generate
+## generate
 ```generate [OPTIONS] NOTEBOOKPATH```  
   
 OPTIONS:
@@ -40,7 +40,7 @@ ARGUMENTS:
 **NOTEBOOKPATH** := Required argument. Path to `notebooks/` folder.  
     
 ---
-### filter
+## filter
 ```filter [OPTIONS] OUTPUTPATH```  
   
 OPTIONS:  
@@ -50,7 +50,7 @@ ARGUMENTS:
 **OUTPUTPATH** := Required argument. Path to `output/` folder.  
 
 ---
-### send
+## send
 ```send [OPTIONS] PATH```  
   
 OPTIONS:  
