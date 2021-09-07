@@ -5,7 +5,7 @@ channels:
 dependencies:
   # NOTE: pip required for running tests in this repo
   - python=3.8
-  - pip~=21
+  - pip>=21
   - numpy
   - scipy
   - pandas
