@@ -29,6 +29,9 @@ ARGUMENTS:
 OPTIONS:  
 **-v, --verbose** := Cause **clean** to be verbose, showing files removed.
 
+OTHER INFO:  
+The command must be run from inside the docs/ folder.
+
 ---
 ## generate
 ```generate [OPTIONS] NOTEBOOKPATH```  
