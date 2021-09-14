@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.10.3
 kernelspec:
-  display_name: Python 3
+  display_name: quiz-mill
   language: python
-  name: python3
+  name: quiz-mill
 ---
 
 # Convert Jupyter notebooks to Canvas quizzes
@@ -19,11 +19,11 @@ This guide shows you how you go from Jupyter notebooks to generating multiple qu
 - Must have the base notebook
 
 ## Step 1: Remove any old "Two Layers" quizzes from Canvas (if applicable)
-Run the following cell: 
+Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-remove -v ..
+remove -v ../
 ```
 
 ### Output should be similar to the following:
@@ -49,7 +49,7 @@ Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-N=5
+N=5 # change number of notebooks here
 generate -n $N notebooks/
 ```
 
@@ -82,7 +82,7 @@ See [here](ex_output_two_layers1_solution.md) for an example solution notebook.
 +++
 
 ### Step 5: Send solution notebooks as quizzes to Canvas
-Run the following cell:
+Run the following cell (cell takes some time to run):
 
 ```{code-cell} ipython3
 %%bash
