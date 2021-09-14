@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-from setuptools_scm import get_version
+# from setuptools_scm import get_version
 
 setup(
     name='quiz_mill',
-    version=get_version(),
+    # version=get_version(),
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
     classifiers=[
