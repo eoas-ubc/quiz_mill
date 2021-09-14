@@ -1,4 +1,4 @@
-name: quiz-mill-2
+name: quiz-mill
 channels:
   - eoas_ubc
   - conda-forge
