@@ -1,1 +1,2 @@
-git+https://github.com/eoas-ubc/quiz_mill.git
+https://github.com/eoas-ubc/quiz_mill.gitt@dockern#subdirectory=quiz_mill_image/quiz_mill_lib
+
