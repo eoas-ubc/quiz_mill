@@ -6,9 +6,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.10.3
 kernelspec:
-  display_name: Python 3
+  display_name: quiz-mill
   language: python
-  name: python3
+  name: quiz-mill
 ---
 
 # Convert Jupyter notebooks to Canvas quizzes
@@ -23,7 +23,7 @@ Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-remove -v ..
+remove -v ../
 ```
 
 ### Output should be similar to the following:
@@ -49,16 +49,16 @@ Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-N=5
-generate -n $N ../notebooks
+N=5 # change number of notebooks here
+generate -n $N notebooks/
 ```
 
 ### Expected output:
 ![generate notebooks expected output](output_generate.png)
 
 ### What the notebook should look like:
-![unfiltered notebook](unfiltered_notebook.png)
-The notebook is located at `quiz_mill/notebooks/output/unfiltered/`.
+See an example [here](ex_two_layers.md).  
+The notebooks are located at `quiz_mill/notebooks/output/unfiltered/`.
 
 +++
 
@@ -67,26 +67,26 @@ Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-filter -v ../notebooks/output
+filter -v notebooks/output
 ```
 
 ### Expected output:
 ![filter notebook](output_filter.png)
 
 ### Student notebook:
-![student notebook](student_notebook.png)
+See [here](ex_output_two_layers1_student.md) for an example student notebook.
 
 ### Solution notebook:
-![solution notebook](solution_notebook.png)
+See [here](ex_output_two_layers1_solution.md) for an example solution notebook.
 
 +++
 
 ### Step 5: Send solution notebooks as quizzes to Canvas
-Run the following cell:
+Run the following cell (cell takes some time to run):
 
 ```{code-cell} ipython3
 %%bash
-send -c 51824 -v ../notebooks/output/filtered/solution/
+send -c 51824 -v notebooks/output/filtered/solution/
 ```
 
 ### Expected output:

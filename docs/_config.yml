@@ -20,7 +20,7 @@ html:
 # Launch button settings
 launch_buttons:
   notebook_interface        : classic  # The interface interactive links will activate ["classic", "jupyterlab"]
-  jupyterhub_url            : "https://eoastest.xyz"  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
+  jupyterhub_url            : "https://hub.eoastest5.xyz"  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
 
 repository:
   url                       : https://github.com/carolz19/quiz_mill  # The URL to your book's repository
@@ -31,3 +31,5 @@ repository:
 # #######################################################################################
 # Interact link settings
 notebook_interface          : "notebook"
+
+exclude_patterns: [notebooks/*]
