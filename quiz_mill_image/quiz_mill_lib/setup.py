@@ -7,7 +7,9 @@ setup(
     name='quiz_mill',
     # version=get_version(),
     package_dir={'': 'src'},
-    packages=find_packages(where='src'),
+    packages=find_packages(
+        where='src',
+        include=['quiz_mill_lib']),
     classifiers=[
         'License :: OSI Approved :: BSD License'
     ],
