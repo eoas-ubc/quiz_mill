@@ -19,7 +19,7 @@ This guide shows you how you go from Jupyter notebooks to generating multiple qu
 - Must have the base notebook
 
 ## Step 1: Remove any old "Two Layers" quizzes from Canvas (if applicable)
-Run the following cell:
+Run the following cell: 
 
 ```{code-cell} ipython3
 %%bash
@@ -50,15 +50,15 @@ Run the following cell:
 ```{code-cell} ipython3
 %%bash
 N=5
-generate -n $N ../notebooks
+generate -n $N notebooks/
 ```
 
 ### Expected output:
 ![generate notebooks expected output](output_generate.png)
 
 ### What the notebook should look like:
-![unfiltered notebook](unfiltered_notebook.png)
-The notebook is located at `quiz_mill/notebooks/output/unfiltered/`.
+See an example [here](ex_two_layers.md).  
+The notebooks are located at `quiz_mill/notebooks/output/unfiltered/`.
 
 +++
 
@@ -67,17 +67,17 @@ Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-filter -v ../notebooks/output
+filter -v notebooks/output
 ```
 
 ### Expected output:
 ![filter notebook](output_filter.png)
 
 ### Student notebook:
-![student notebook](student_notebook.png)
+See [here](ex_output_two_layers1_student.md) for an example student notebook.
 
 ### Solution notebook:
-![solution notebook](solution_notebook.png)
+See [here](ex_output_two_layers1_solution.md) for an example solution notebook.
 
 +++
 
@@ -86,7 +86,7 @@ Run the following cell:
 
 ```{code-cell} ipython3
 %%bash
-send -c 51824 -v ../notebooks/output/filtered/solution/
+send -c 51824 -v notebooks/output/filtered/solution/
 ```
 
 ### Expected output:

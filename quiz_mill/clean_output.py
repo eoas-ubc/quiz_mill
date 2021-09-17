@@ -8,7 +8,7 @@ import os
 @click.command()
 @click.option("-v", "--verbose", is_flag=True, default=False)
 def main(verbose):
-    delete_files("../notebooks/output/", verbose)
+    delete_files("notebooks/output/", verbose)
 
 def delete_files(path, verbose):
     content = os.listdir(path)

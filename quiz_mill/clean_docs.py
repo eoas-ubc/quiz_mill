@@ -12,7 +12,7 @@ def delete_files(path, verbose):
     for f in content:
         file_path = os.path.join(path, f)
 
-        if ("docs/_build/" in file_path) or (".ipynb_checkpoints" in file_path):
+        if ("docs/_build/" in file_path) or (".ipynb_checkpoints" in file_path) or ("docs/notebooks/" in file_path):
             continue
 
         try:
