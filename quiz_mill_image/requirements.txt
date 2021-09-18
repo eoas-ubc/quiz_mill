@@ -1,2 +1,1 @@
-https://github.com/eoas-ubc/quiz_mill.gitt@dockern#subdirectory=quiz_mill_image/quiz_mill_lib
-
+git+https://git@github.com/eoas-ubc/quiz_mill.git@docker#subdirectory=quiz_mill_image/quiz_mill_lib
