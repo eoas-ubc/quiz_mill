@@ -19,7 +19,7 @@ latex_metadata:
   lhead: EOSC 340
 ---
 
-+++ {"allowed_attempts": 2, "cant_go_back": false, "ctype": "quiz", "scoring_policy": "keep_highest", "shuffle_answers": false, "title": "Day 9 Quiz"}
++++ {"allowed_attempts": 2, "cant_go_back": false, "ctype": "quiz", "scoring_policy": "keep_highest", "shuffle_answers": false, "title": "Day 1"}
 
 # Quiz 1
 
